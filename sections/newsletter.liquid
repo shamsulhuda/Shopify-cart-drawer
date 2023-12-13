@@ -1,0 +1,124 @@
+{% style %}
+#newsletter_{{ section.id }}{
+  padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+  padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  background-color: {{ section.settings.bg_color}};
+}
+#newsletter_{{ section.id }} .title{
+  color: {{ section.settings.title_color}};
+}
+{% endstyle %}
+
+<section class="newsletter-section" id="newsletter_{{ section.id }}">
+  <div class="container">
+    <div class="newsletter-area text-center">
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when 'title' %}
+            <div class="heading">
+              <h1 class="title">{{ block.settings.title | escape }}</h1>
+            </div>
+          {% when 'description' %}
+            <div class="newsletter-details">
+              {{ block.settings.rte }}
+            </div>
+          {% when 'email_form' %}
+            {% form 'customer', class: 'newsletter-form' %}
+              <div class="input-group" style="width:50%; margin: 10px auto">
+                <input type="email" class="form-control" width="50%" placeholder="Email" name="contact[email]">
+                <div class="input-group-text">
+                  <button type="submit" class="btn btn-secondary">Submit</button>
+                </div>
+              </div>
+            {% endform %}
+        {% endcase %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "settings": [
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background color",
+      "default": "#DDDDDD"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title color",
+      "default": "#000000"
+    }
+  ],
+  "blocks":[
+    {
+      "type": "title",
+      "name": "Heading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Subscribe us!"
+        }
+      ]
+    },
+    {
+      "type": "description",
+      "name": "Description",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "rte",
+          "label": "Description"
+        }
+      ]
+    },
+    {
+      "type": "email_form",
+      "name": "Email form",
+      "limit": 1
+    }
+  ],
+  "presets": [
+    {
+      "name": "Newsletter",
+      "category": "Email",
+      "blocks": [
+        {
+          "type": "title"
+        },
+        {
+          "type": "email_form"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

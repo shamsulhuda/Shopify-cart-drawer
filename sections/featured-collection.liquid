@@ -1,0 +1,56 @@
+{% assign collection = section.settings.collection %}
+<div class="featured-product-section">
+  <div class="container">
+    <div class="section-heading">
+      {% if section.settings.title != blank %}
+      <h2>{{ section.settings.title }} ({{ collection.all_products_count }})</h2>
+      {% else %}
+        <h2>{{ collection.title }} ({{ collection.all_products_count }})</h2>
+      {% endif %}
+    </div>
+    <div class="row">
+      {% for product in collection.products limit: section.settings.limit %}
+        {% render 'product-card', product:product %}
+      {% endfor %}
+    </div>
+    {% if collection.all_products_count > section.settings.limit %}
+    <div class="more-products text-center">
+      <a href="{{ collection.url }}" class="btn btn-secondary">View all</a>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Featured collection",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section title",
+      "default": "Featured Section"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "min": 2,
+      "max": 20,
+      "step": 1,
+      "default": 6,
+      "id": "limit",
+      "label": "Product limits"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured collection",
+      "category": "Collection"
+    }
+  ]
+}
+{% endschema %}

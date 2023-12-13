@@ -1,0 +1,79 @@
+<div class="page-contact">
+  <div class="container">
+    <div class="page-header text-center py-5">
+      <h1>{{ page.title }}</h1>
+    </div>
+    {% if page.content %}
+    <div class="page-content">
+      {{ page.content }}
+    </div>
+    {% endif %}
+    <div class="contect-form">
+      {% form 'contact' %}
+
+      {% if form.posted_successfully? %}
+      <div class="form-success-message text-success">
+        <p>Form submited successfully!</p>
+      </div>
+      {% endif %}
+
+      {{ form.errors | default_errors }}
+        
+        <div class="row my-3">
+          <div class="col">
+            <input 
+              type="text" 
+              class="form-control" 
+              name="contact[first_name]" 
+              placeholder="First name"
+              value="{%- if form[first_name] -%} {{- form.first_name -}}{%- else -%} {{- customer.first_name -}}{%- endif -%}"
+              required
+              >
+          </div>
+          <div class="col">
+            <input type="text" 
+              class="form-control" 
+              name="contact[last_name]" 
+              placeholder="Last name"
+              value="{%- if form[last_name] -%} {{- form.last_name -}}{%- else -%} {{- customer.last_name -}}{%- endif -%}"
+              required
+              >
+          </div>
+        </div>
+        <div class="row my-3">
+          <div class="col">
+            <input type="email" 
+              class="form-control" 
+              name="contact[email]" 
+              placeholder="Email"
+              value="{%- if form[email] -%} {{- form.email -}}{%- else -%} {{- customer.email -}}{%- endif -%}"
+              required
+              >
+          </div>
+          <div class="col">
+            <input type="number" 
+              class="form-control" 
+              name="contact[phone]" 
+              placeholder="Phone"
+              value="{%- if form[phone] -%} {{- form.phone -}}{%- else -%} {{- customer.phone -}}{%- endif -%}"
+              pattern="[0-9\-]*"
+              >
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+          <textarea class="form-control" name="contact[body]" placeholder="Your message...." rows="10">
+            {%- if form.body -%}
+            {{- form.body -}}
+            {%- endif -%}
+          </textarea>
+          </div>
+        </div>
+
+      <div class="action-btn py-4">
+        <button type="submit" class="btn btn-secondary">Send</button>
+      </div>
+      {% endform %}
+    </div>
+  </div>
+</div>
