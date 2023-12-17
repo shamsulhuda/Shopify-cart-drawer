@@ -108,7 +108,7 @@
         {% endif %}
 
         <div class="cart-counter mx-2">
-          <a href="javascript:void(0);" class="d-flex" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+          <a href="{{ routes.cart_url }}" class="d-flex">
             {% if cart.item_count > 0 %}
             <span class="shopping-bag">
               {% render 'icons', icon:'bag-fill' %}
