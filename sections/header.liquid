@@ -108,17 +108,11 @@
         {% endif %}
 
         <div class="cart-counter mx-2">
-          <a href="{{ routes.cart_url }}" class="d-flex">
-            {% if cart.item_count > 0 %}
-            <span class="shopping-bag">
-              {% render 'icons', icon:'bag-fill' %}
-            </span>
-            (<span class="counter">{{ cart.item_count }}</span>)
-            {% else %}
+          <a href="{{routes.cart_url}}" class="d-flex" id="cartIcon">
               <span class="shopping-bag">
               {% render 'icons', icon:'bag' %}
               </span>
-            {% endif %}
+            (<span class="counter">{{ cart.item_count }}</span>)
           </a>
         </div>
       </div>        

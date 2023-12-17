@@ -158,6 +158,26 @@
         "id": "cart_notes_enable",
         "label": "Enable cart notes",
         "default": true
+      },
+      {
+        "type": "select",
+        "id": "cart_type",
+        "label": "Select cart type",
+        "options": [
+          {
+            "label": "Notification",
+            "value": "notification"
+          },
+          {
+            "label": "Drawer",
+            "value": "drawer"
+          },
+          {
+            "label": "Page",
+            "value": "page"
+          }
+        ],
+        "default": "page"
       }
     ]
   },
