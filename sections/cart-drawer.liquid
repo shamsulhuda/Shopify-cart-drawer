@@ -1,10 +1,58 @@
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
   <div class="offcanvas-header">
-    <h5 id="offcanvasRightLabel">Offcanvas right</h5>
+    <h5 id="offcanvasRightLabel">Cart &bull; {{ cart.item_count }} {{ cart.item_count |  pluralize: 'item','items'}}</h5>
     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
-  <div class="offcanvas-body">
-    Cart body
+  <hr>
+  <div class="offcanvas-body" id="cart-items">
+    {% form 'cart', cart, id:'cart' %}
+      <div class="cart-items">
+        {% for line_item in cart.items %}
+          <div class="item d-flex justify-content-between">
+            <div class="media-content d-flex">
+              <div class="media">
+                <img src="{{ line_item.image | img_url:'small' }}" alt="{{ line_item.title |  escape}}">
+              </div>
+              <div class="content pe-1">
+                <p class="title m-0">{{ line_item.title |  link_to: line_item.url }}</p>
+                {% unless line_item.product.has_only_default_variant %}
+                <p class="options m-0">
+                  {% for option in line_item.options_with_values %}
+                  <span>{{ option.value }}</span> {% unless forloop.last %}/{% endunless %}
+                  {% endfor %}
+                </p>
+                {% endunless %}
+                <div class="qty_selector">
+                  <button type="button" class="qty-minus" data-qty="minus">-</button>
+                  <input class="quantity_input" type="number" value="{{ line_item.quantity }}" min="0" max="20" data-line="{{ forloop.index }}">
+                  <button type="button" class="qty-plus" data-qty="plus">+</button>
+                </div>
+              </div>
+            </div>
+            <div class="action text-right">
+              <p class="price">{{ line_item.price |  money }}</p>
+              <a class="remove-item" href="/cart/change?line={{ forloop.index }}&quantity=0" data-line="{{ forloop.index }}">Remove</a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% endform %}
+  </div>
+  <div class="offcanvas-footer">
+    <hr>
+    {% form 'cart', cart %}
+    <div class="drawer-footer px-3 py-1">
+      <div class="subtotal d-flex justify-content-between">
+        <h3>Subtotal</h3>
+        <h3>
+          <strong data-subtotal>{{ cart.total_price |  money_with_currency }}</strong>
+        </h3>
+      </div>
+      <div class="action mt-4">
+        <button type="submit" class="btn btn-dark w-100" name="checkout">Checkout</button>
+      </div>
+    </div>
+    {% endform %}
   </div>
 </div>
 
