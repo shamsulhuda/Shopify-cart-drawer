@@ -10,7 +10,7 @@
         {% for line_item in cart.items %}
           <div class="item d-flex justify-content-between">
             <div class="media-content d-flex">
-              <div class="media">
+              <div class="media pe-1">
                 <img src="{{ line_item.image | img_url:'small' }}" alt="{{ line_item.title |  escape}}">
               </div>
               <div class="content pe-1">
@@ -34,6 +34,7 @@
               <a class="remove-item" href="/cart/change?line={{ forloop.index }}&quantity=0" data-line="{{ forloop.index }}">Remove</a>
             </div>
           </div>
+          <hr>
         {% endfor %}
       </div>
     {% endform %}
