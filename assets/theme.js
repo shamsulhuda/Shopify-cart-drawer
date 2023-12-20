@@ -9,7 +9,7 @@ window.addEventListener("DOMContentLoaded",()=>{
 
   // Cart Drawer
 
-  const showDawer = ()=>{
+  const showDawer = async ()=>{
     $("#offcanvasRight").offcanvas('show');
   }
   
@@ -21,6 +21,22 @@ window.addEventListener("DOMContentLoaded",()=>{
       return false;
     }
   });
+
+  // update drawer cart
+  const updateDrawerCart = async ()=>{
+    let cart = await getCartCallback();
+
+    fetch(`${routes.cart_url}?section_id=cart-items`)
+    .then(response => response.text())
+    .then((data)=>{
+      $("#cart-items").html(data);
+    })
+    .then(async()=>{
+      $('.counter').text(cart.item_count);
+      $('#offcanvasRightLabel').html(`Cart &bull; ${cart.item_count} ${cart.item_count > 1 ? 'items':'item'}`)
+      
+    })
+  }
 
   $(document).on("click", ".qty_selector button[type='button']", function(e){
     let btnType = $(this).data('qty');
@@ -53,7 +69,10 @@ window.addEventListener("DOMContentLoaded",()=>{
       dataType: 'json',
       success: function(data){
         console.log("success::", data);
-        showDawer();
+        setTimeout(async ()=>{
+          await updateDrawerCart();
+          await showDawer();
+        },100)
       },
       error: function(err){
         console.log(err);

@@ -1,0 +1,42 @@
+<cart-items>
+    {% form 'cart', cart, id:'cart' %}
+        <div class="cart-items">
+          {% for line_item in cart.items %}
+            <div class="item d-flex justify-content-between">
+              <div class="media-content d-flex">
+                <div class="media pe-1">
+                  <img src="{{ line_item.image | img_url:'small' }}" alt="{{ line_item.title |  escape}}">
+                </div>
+                <div class="content pe-1">
+                  <p class="title m-0">{{ line_item.title |  link_to: line_item.url }}</p>
+                  {% unless line_item.product.has_only_default_variant %}
+                  <p class="options m-0">
+                    {% for option in line_item.options_with_values %}
+                    <span>{{ option.value }}</span> {% unless forloop.last %}/{% endunless %}
+                    {% endfor %}
+                  </p>
+                  {% endunless %}
+                  <div class="qty_selector">
+                    <button type="button" class="qty-minus" data-qty="minus">-</button>
+                    <input class="quantity_input" type="number" value="{{ line_item.quantity }}" min="0" max="20" data-line="{{ forloop.index }}">
+                    <button type="button" class="qty-plus" data-qty="plus">+</button>
+                  </div>
+                </div>
+              </div>
+              <div class="action text-right">
+                <p class="price">{{ line_item.price |  money }}</p>
+                <a class="remove-item" href="/cart/change?line={{ forloop.index }}&quantity=0" data-line="{{ forloop.index }}">Remove</a>
+              </div>
+            </div>
+            <hr>
+          {% endfor %}
+        </div>
+      {% endform %}
+</cart-items>
+
+{% schema %}
+    {
+        "name": "Cart Items",
+        "settings": []
+    }
+{% endschema %}

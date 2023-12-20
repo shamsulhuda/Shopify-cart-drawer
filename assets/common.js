@@ -84,3 +84,10 @@ Shopify.CountryProvinceSelector.prototype = {
     }
   },
 };
+
+const getCartCallback = async (callback)=>{
+  const cart = await fetch('/cart.js')
+  const cartData = await cart.json();
+  if(callback) return callback(cartData);
+  return cartData
+}
