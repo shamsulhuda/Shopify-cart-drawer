@@ -9,7 +9,7 @@ window.addEventListener("DOMContentLoaded",()=>{
 
   // Cart Drawer
 
-  const showDawer = ()=>{
+  const showDawer = async ()=>{
     $("#offcanvasRight").offcanvas('show');
   }
   
@@ -41,5 +41,24 @@ window.addEventListener("DOMContentLoaded",()=>{
     let line = $(this).data('line');
     let qty = $(this).val();
     console.log("Quantity changed");
+  });
+
+  // add to cart
+  $(document).on("submit", "form[action='/cart/add']", function(event){
+    event.preventDefault();
+    $.ajax({
+      type: 'POST',
+      url: '/cart/add.js',
+      data: $(this).serialize(),
+      dataType: 'json',
+      success: function(data){
+        console.log("success::", data);
+        showDawer();
+      },
+      error: function(err){
+        console.log(err);
+      }
+    })
   })
+
 })
