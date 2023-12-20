@@ -9,7 +9,7 @@ window.addEventListener("DOMContentLoaded",()=>{
 
   // Cart Drawer
 
-  const showDawer = async ()=>{
+  const showDawer = ()=>{
     $("#offcanvasRight").offcanvas('show');
   }
   
