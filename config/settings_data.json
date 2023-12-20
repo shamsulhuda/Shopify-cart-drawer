@@ -1,6 +1,7 @@
 {
   "current": {
     "enable_currency_selector": true,
+    "cart_type": "drawer",
     "sections": {
       "collection-list": {
         "type": "collection-list",
