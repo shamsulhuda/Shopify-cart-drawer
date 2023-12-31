@@ -24,9 +24,6 @@
   <!-- jQuery Library -->
   <script src="https://code.jquery.com/jquery-3.7.0.min.js" defer></script>
   
-  {{ 'common.js' | asset_url | script_tag }}
-  {{ 'theme.js' | asset_url | script_tag }}
-
 
   {{ content_for_header }}
 </head>
@@ -50,9 +47,12 @@
   <script>
     window.routes = {
       cart_type: "{{ settings.cart_type }}",
-      cart_url: "{{ routes.cart_url }}"
-    }
+      cart_url: "{{ routes.cart_url }}",
+      currency: "{{ shop.money_with_currency_format }}"
+    }    
   </script>
+  {{ 'common.js' | asset_url | script_tag }}
+  {{ 'theme.js' | asset_url | script_tag }}
   <script src="{{ 'bootstrap.bundle.min.js' | asset_url }}" defer></script>
 
 </body>

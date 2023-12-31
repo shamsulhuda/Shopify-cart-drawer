@@ -1,4 +1,5 @@
 <cart-items>
+  {%  unless cart.empty? %}
     {% form 'cart', cart, id:'cart' %}
         <div class="cart-items">
           {% for line_item in cart.items %}
@@ -32,6 +33,11 @@
           {% endfor %}
         </div>
       {% endform %}
+      {%  else %}
+      <div class="empty-cart text-center">
+        <h3>Cart empty!</h3>
+      </div>
+  {% endunless %}
 </cart-items>
 
 {% schema %}

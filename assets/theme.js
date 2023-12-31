@@ -33,8 +33,15 @@ window.addEventListener("DOMContentLoaded",()=>{
     })
     .then(async()=>{
       $('.counter').text(cart.item_count);
-      $('#offcanvasRightLabel').html(`Cart &bull; ${cart.item_count} ${cart.item_count > 1 ? 'items':'item'}`)
-      
+      $('#offcanvasRightLabel').html(`Cart &bull; ${cart.item_count} ${cart.item_count > 1 ? 'items':'item'}`);
+      $('[data-subtotal]').html(Shopify.formatMoney(cart.total_price, routes.currency));
+      if(cart.item_count == 0){
+        $(document).find('#offcanvasRight').addClass('cart-empty');
+        $(document).find('[name="checkout"]').attr('disabled', true);
+      }else{
+        $(document).find('#offcanvasRight').removeClass('cart-empty');
+        $(document).find('[name="checkout"]').attr('disabled', false);
+      }
     })
   }
 
