@@ -45,6 +45,15 @@ window.addEventListener("DOMContentLoaded",()=>{
     })
   }
 
+  const updateQuantity = (line, qty) => {
+    jQuery.post('/cart/change.js',{
+      line: line,
+      quantity: qty
+    }).then(()=>{
+      updateDrawerCart();
+    })
+  }
+
   $(document).on("click", ".qty_selector button[type='button']", function(e){
     let btnType = $(this).data('qty');
     let input = $(this).parent().find('input');
@@ -58,13 +67,21 @@ window.addEventListener("DOMContentLoaded",()=>{
       currentQuantity = currentQuantity + 1;
       input.val(currentQuantity);
     }
+    updateQuantity(line,currentQuantity);
   });
 
   $(document).on("change", ".qty_selector input", function(){
     let line = $(this).data('line');
     let qty = $(this).val();
     console.log("Quantity changed");
+    updateQuantity(line,qty);
   });
+
+  $(document).on("click", ".remove-item", function(e){
+    e.preventDefault();
+    let line = $(this).data('line');
+    updateQuantity(line,0);
+  })
 
   // add to cart
   $(document).on("submit", "form[action='/cart/add']", function(event){
